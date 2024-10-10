@@ -4,10 +4,11 @@ import { Suspense, lazy } from "react";
 import { Loading } from "../utils";
 
 const Home = lazy(() => import('../routes/home/Home'));
-const Cart = lazy(() => import('../routes/Cart/Cart'));
-const Favorite = lazy(() => import('../routes/Favorite/Favorite'));
+const Cart = lazy(() => import('../routes/cart/Cart'));
+const Favorite = lazy(() => import('../routes/favorite/Favorite'));
 const SinglePage = lazy(() => import('../routes/details/Details'));
 const Recommendation = lazy(() => import('../routes/recommendation/Recommendation'));
+const CategoryPage = lazy(() => import('../routes/categoryPage/CategoryPage'));
 
 const NotFound = lazy(() => import('../routes/not-found/NotFound'));
 
@@ -21,6 +22,11 @@ const RouteController = () => {
       {
          path: 'details/:id',
          element: <Suspense fallback={<Loading />}><SinglePage /></Suspense>,
+      },
+
+      {
+         path: 'category/:type',
+         element: <Suspense fallback={<Loading />}><CategoryPage /></Suspense>,
       },
 
       {

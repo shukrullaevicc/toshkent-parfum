@@ -1,21 +1,26 @@
-import { ImEnter } from "react-icons/im"; 
-import { AiOutlineHeart } from "react-icons/ai"; 
-import { BsCart3 } from "react-icons/bs"; 
-import { AiOutlineSearch } from "react-icons/ai"; 
-import { GiHamburgerMenu } from "react-icons/gi"; 
-import { AiFillFacebook } from "react-icons/ai"; 
-import { GrMapLocation } from "react-icons/gr"; 
-import { BsTelephoneInbound } from "react-icons/bs"; 
-import { SiTelegram } from "react-icons/si"; 
-import { AiFillInstagram } from "react-icons/ai";
+import { useSelector } from "react-redux";
+import { NavLink, useNavigate } from "react-router-dom";
+import { Badge } from "antd";
+import { ImEnter } from "react-icons/im";
+import { BsCart3, BsTelephoneInbound } from "react-icons/bs"; 
+import { AiOutlineSearch, AiOutlineHeart, AiFillFacebook, AiFillInstagram } from "react-icons/ai"; 
+import { GiHamburgerMenu } from "react-icons/gi";
+import { GrMapLocation } from "react-icons/gr";
+import { SiTelegram } from "react-icons/si";
 import logo from '../../images/logo.png';
-
 import Container from "../container/Container";
-import { NavLink } from "react-router-dom";
 
 const Navigation = () => {
+   const navigate = useNavigate();
+   const cartLength = useSelector((state) => state.cart.cart);
+   const likedLength = useSelector((state) => state.like.likedItems);
+
+   const handleCategoryClick = (type) => {
+      navigate(`/category/${type}`);
+   };
+
    return (
-      <div className="bg-white sticky top-0 z-50">
+      <div>
          <div className='py-5 bg-gray-100'>
             <Container>
                <div className="flex items-center justify-between">
@@ -34,9 +39,9 @@ const Navigation = () => {
 
                   <div className="flex items-center gap-7">
                      <div className="flex items-center gap-3">
-                        <AiFillFacebook className="text-2xl text-gray-400"/>
-                        <AiFillInstagram className="text-2xl text-gray-400"/>
-                        <SiTelegram className="text-xl text-gray-400"/>
+                        <a target="_blank" href="https://www.facebook.com/toshkentparfume"><AiFillFacebook className="text-2xl text-gray-400 hover:text-[#f62559]"/></a>
+                        <a target="_blank" href="https://www.instagram.com/toshkent_parfum_/"><AiFillInstagram className="text-2xl text-gray-400 hover:text-[#f62559]"/></a>
+                        <a target="_blank" href="https://t.me/toshkent_parfume"><SiTelegram className="text-xl text-gray-400 hover:text-[#f62559]"/></a>
                      </div>
                      <select name="" id="" className="text-gray-600 text-xs bg-transparent outline-none border-0">
                         <option value="">O'zbekcha</option>
@@ -47,7 +52,7 @@ const Navigation = () => {
             </Container>
          </div>
 
-         <div className="border-b-[1px] border-gray-200">
+         <div className="border-b-[1px] border-gray-200 bg-white">
             <Container>
                <div className="flex items-center justify-center gap-8 py-4">
                   <NavLink to="/">
@@ -66,11 +71,16 @@ const Navigation = () => {
 
                   <div className="flex items-center gap-8">
                      <NavLink to="/cart" className="flex flex-col items-center justify-center gap-1">
-                        <BsCart3 className="text-xl text-gray-700"/>
+                        <Badge count={cartLength.length} size="small" showZero>
+                           <BsCart3 className="text-xl text-gray-700" />
+                        </Badge>
                         <p className="text-xs text-gray-600">Savatcha</p>
                      </NavLink>
+                     
                      <NavLink to="/favorite" className="flex flex-col items-center justify-center gap-1">
-                        <AiOutlineHeart className="text-xl text-gray-700"/>
+                        <Badge count={likedLength.length} size="small" showZero>
+                           <AiOutlineHeart className="text-xl text-gray-700" />
+                        </Badge>
                         <p className="text-xs text-gray-600">Saqlanganlar</p>
                      </NavLink>
                   </div>
@@ -80,10 +90,20 @@ const Navigation = () => {
                      <p>Kirish</p>
                   </button>
                </div>
+               
+               <ul className="flex items-center justify-between gap-3 text-sm font-semibold text-black py-3 cursor-pointer">
+                  <li onClick={() => handleCategoryClick('eyeshadow')}>Yuz uchun</li>
+                  <li onClick={() => handleCategoryClick('eyeliner')}>Ko'zlar uchun</li>
+                  <li onClick={() => handleCategoryClick('lipstick')}>Lablar uchun</li>
+                  <li onClick={() => handleCategoryClick('eyebrow')}>Qoshlar uchun</li>
+                  <li onClick={() => handleCategoryClick('mascara')}>Tirnoqlar uchun</li>
+                  <li onClick={() => handleCategoryClick('foundation')}>Atirlar</li>
+                  <li onClick={() => handleCategoryClick('nail_polish')}>Laklar</li>
+               </ul>
             </Container>
          </div>
       </div>
    )
 }
 
-export default Navigation
+export default Navigation;
